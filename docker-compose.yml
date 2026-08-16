@@ -1,0 +1,47 @@
+services:
+  auth_service:
+    build:
+      context: ./auth_service
+    env_file:
+      - ./auth_service/.env
+    ports:
+      - "8000:8000"
+    volumes:
+      - auth_data:/app/data
+    environment:
+      SQLITE_PATH: /app/data/auth.db
+
+  web_service:
+    build:
+      context: ./web_service
+    env_file:
+      - ./web_service/.env
+    ports:
+      - "8001:8001"
+    depends_on:
+      - redis
+      - rabbitmq
+
+  celery_worker:
+    build:
+      context: ./web_service
+    env_file:
+      - ./web_service/.env
+    command: celery -A app.infra.celery_app.celery_app worker --loglevel=info
+    depends_on:
+      - redis
+      - rabbitmq
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+volumes:
+  auth_data:

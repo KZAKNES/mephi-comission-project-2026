@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<header>
+  <h1>LLM Consultation</h1>
+  <p class="meta">Save a JWT issued by Auth Service, then send a prompt through the queued OpenRouter worker.</p>
+</header>
+
+{% if message %}
+<div class="notice">{{ message }}</div>
+{% endif %}
+
+{% if error %}
+<div class="error">{{ error }}</div>
+{% endif %}
+
+<section class="panel">
+  {% if has_token %}
+  <p><strong>JWT status:</strong> token is saved for this browser session.</p>
+  {% else %}
+  <p><strong>JWT status:</strong> no token is saved. Get a JWT in Auth Service and save it here.</p>
+  {% endif %}
+</section>
+
+<form action="/token" method="post">
+  <label for="token">JWT access token</label>
+  <textarea id="token" name="token" required></textarea>
+  <button type="submit">Save token</button>
+</form>
+
+<form action="/ask" method="post">
+  <label for="prompt">Prompt</label>
+  <textarea id="prompt" name="prompt" required></textarea>
+  <button type="submit">Send request</button>
+</form>
+
+{% if task_id %}
+<section class="panel">
+  <p><strong>Task:</strong> {{ task_id }}</p>
+  <p><strong>Status:</strong> {{ task_status }}</p>
+  {% if task_result %}
+  <pre>{{ task_result }}</pre>
+  {% else %}
+  <p class="meta">The worker has not returned an answer yet.</p>
+  {% endif %}
+  <a class="button" href="/?task_id={{ task_id }}">Refresh</a>
+</section>
+{% endif %}
+{% endblock %}
