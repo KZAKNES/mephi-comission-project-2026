@@ -74,25 +74,4 @@ docker compose up --build
 
 Контейнеры: `auth_service`, `web_service`, `celery_worker`, `redis`, `rabbitmq`.
 
-## Скриншоты (по шагам)
-
-1. Регистрация  
-![1 - registration](photos/1%20-%20registration.png)
-
-2. Авторизация (логин)  
-![2 - authorization](photos/2%20-%20authorization.png)
-
-3. Получение JWT  
-![3 - jwt token acquiring](photos/3%20-%20jwt%20token%20acquiring.png)
-
-4. Web Service  
-![4 - Web Service](photos/4%20-%20Web%20Service.png)
-
-5. RabbitMQ  
-![5 - RabbitMQ](photos/5%20-%20RabbitMQ.png)
-
-6. Тесты Auth Service  
-![6 - Auth tests](photos/6%20-%20Auth%20tests.png)
-
-7. Тесты Web Service  
-![7 - Web tests](photos/7%20-%20Web%20tests.png)
+## Скриншоты в папке photos
