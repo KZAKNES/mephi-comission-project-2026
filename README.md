@@ -55,20 +55,7 @@
 6. Celery worker обращается к OpenRouter, результат сохраняется в Redis.
 7. Ответ модели отображается на странице.
 
-## Тесты
 
-- Auth Service:
-  - `cd auth_service && uv run pytest -q`
-- Web Service:
-  - `cd web_service && uv run pytest -q`
-
-Тесты не требуют Docker и внешних сервисов (in-memory SQLite, `fakeredis`, подмена `llm_request.delay`).
-
-## Docker Compose
-
-```powershell
-docker compose up --build
-```
 
 Контейнеры: `auth_service`, `web_service`, `celery_worker`, `redis`, `rabbitmq`.
 
