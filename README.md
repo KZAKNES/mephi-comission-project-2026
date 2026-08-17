@@ -24,27 +24,14 @@
 - **Redis** — хранение JWT, привязанного к клиентской сессии, и backend результатов Celery.
 - **OpenRouter** — внешний LLM API (отдельный клиент, вызывается только в Celery-задаче).
 
-## Локальный запуск
+## Тесты
 
-1. Заполните `.env` для каждого сервиса на основе `.env.example`.
-2. Поднимите инфраструктуру:
-   - `redis` на `127.0.0.1:6379`
-   - `rabbitmq` на `127.0.0.1:5672` (UI: `127.0.0.1:15672`)
-3. Запустите сервисы:
-   - Auth API:
-     - `cd auth_service`
-     - `uv run uvicorn app.main:app --host 127.0.0.1 --port 8000 --reload`
-   - Web Service (Jinja-интерфейс):
-     - `cd web_service`
-     - `uv run uvicorn app.main:app --host 127.0.0.1 --port 8001 --reload`
-   - Celery Worker:
-     - `cd web_service`
-     - `uv run celery -A app.infra.celery_app.celery_app worker --loglevel=info --pool=solo`
-4. Откройте:
-   - Swagger Auth Service: `http://127.0.0.1:8000/docs`
-   - Web Service: `http://127.0.0.1:8001`
-   - RabbitMQ UI: `http://127.0.0.1:15672` (`guest` / `guest`)
-
+- Auth service:
+  - `cd ..\auth_service`
+  - `uv run pytest -v`
+- Web service:
+  - `cd ..\web_service`
+  - `uv run pytest -v`
 ## Пользовательский сценарий
 
 1. Регистрация в Auth Service (`POST /auth/register`, email в формате `surname@email.com`, например `kunin@email.com`).
@@ -54,9 +41,5 @@
 5. Web Service валидирует JWT и ставит задачу в очередь Celery (RabbitMQ).
 6. Celery worker обращается к OpenRouter, результат сохраняется в Redis.
 7. Ответ модели отображается на странице.
-
-
-
-Контейнеры: `auth_service`, `web_service`, `celery_worker`, `redis`, `rabbitmq`.
 
 ## Скриншоты в папке photos
