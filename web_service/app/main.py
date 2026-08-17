@@ -74,6 +74,7 @@ async def render_home(
         **get_task_state(task_id),
     }
     response = templates.TemplateResponse(
+        request,
         "index.html",
         context,
         status_code=status_code,
